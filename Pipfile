@@ -6,7 +6,9 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+celery = "*"
 django = "*"
+django-heroku = "*"
 scrapy = "*"
 djangorestframework = "*"
 gunicorn = "*"
