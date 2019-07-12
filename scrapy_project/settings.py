@@ -88,10 +88,10 @@ ITEM_PIPELINES = {
 #  pip install scrapy-useragents
 #  https://www.scrapehero.com/how-to-fake-and-rotate-user-agents-using-python-3/
 # ------------------------------------------------------------------
-DOWNLOADER_MIDDLEWARES = {
-    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
-    'scrapy_useragents.downloadermiddlewares.useragents.UserAgentsMiddleware': 500,
-}
+# DOWNLOADER_MIDDLEWARES = {
+#     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+#     'scrapy_useragents.downloadermiddlewares.useragents.UserAgentsMiddleware': 500,
+# }
 
 USER_AGENTS = [
     ('Mozilla/5.0 (X11; Linux x86_64) '
