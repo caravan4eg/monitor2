@@ -3,5 +3,5 @@ from .views import TendersAPIView
 
 
 urlpatterns = [
-        path('', TendersAPIView.as_view()),
+        path('', TendersAPIView.as_view(), name='api'),
     ]
