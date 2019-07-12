@@ -169,3 +169,9 @@ CELERY_RESULT_SERIALIZER = 'json'
 #     },
 # }
 CELERY_WORKER_MAX_TASKS_PER_CHILD=1
+
+# Configure Django App for Heroku.
+import django_heroku
+django_heroku.settings(locals())
+
+CORS_ORIGIN_ALLOW_ALL = True
