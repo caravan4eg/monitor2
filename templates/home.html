@@ -2,15 +2,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Tenders Monitor Project</h1>
-<h2>Tenders list</h2>
+<h1>Tenders list</h1>
 <hr/>
 <ul>
     {% for tender in all_tenders_list %}
-    <li>{{ tender.number }}</li>
-    {{ tender.description }}
-    <hr/>
+  
+    <li>Number: {{ tender.number }}</li>
+    <li>Description: {{ tender.description }}</li>
+    <li>Price: {{ tender.price }}</li>
+    <li>Created at: {{ tender.created_at }}</li>
+    <li>Deadline: {{ tender.deadline }}</li>
+    <hr>
+  
     {% endfor %}
-</ul>
+  </ul>
 
 {% endblock content %}

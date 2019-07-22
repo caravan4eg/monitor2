@@ -12,6 +12,8 @@ django-heroku = "*"
 scrapy = "*"
 djangorestframework = "*"
 gunicorn = "*"
+django-filters = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.7"
