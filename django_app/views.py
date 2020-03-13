@@ -3,11 +3,10 @@ from django.views.generic import ListView, TemplateView
 from .models import KeyWord, Tenders
 
 
-
 class HomePageView(ListView):
-    """Expose list of tenders from db - html page"""
+    """List of tenders"""
     model = Tenders
-    template_name = 'home.html'
+    template_name = 'tenders_list.html'
     context_object_name = 'all_tenders_list' 
 
 

@@ -1,0 +1,24 @@
+<!-- templates/tenders_list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Актуальные тендеры и конкурсные закупоки</h1>
+<hr />
+<ul>
+  {% for tender in all_tenders_list %}
+      <div class="card mb-4">
+        <div class="card-header">
+          №{{ tender.number }} | {{ tender.customer }} 
+        </div>
+        <div class="card-body">
+          {#<h5 class="card-title">XXX</h5>#}
+          <p class="card-text">Описание: {{ tender.description }}</p>
+          <p class="card-text">Сумма: {{ tender.price }}</p>
+          <p class="card-text">Дата окончания: {{ tender.deadline }}</p>
+          <a href="{{ tender.url_addr }}" class="btn btn-light">Подробнее</a>
+        </div>
+      </div>
+  {% endfor %}
+</ul>
+
+{% endblock content %}

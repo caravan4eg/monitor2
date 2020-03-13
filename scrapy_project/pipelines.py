@@ -39,16 +39,24 @@ class TenderPipeline(object):
         """
  
         spider.log('Check if item already exists in db...')
+        # v1
         self.cur.execute("select exists(\
                           SELECT number FROM public.tenders\
                           WHERE lower(number) = %s)", 
                           (item["number"].lower(),)   
                         )
 
+
         item_exists = self.cur.fetchone()  
 
         if item_exists[0] == True:
             raise DropItem('Tender already exists and won\'t be added to db')
+
+        # # v2 if there is tender with the same number in db count() 
+        # will be True
+        # if Tender.objects.filter(number__iexact=item['number']).count():
+        #     raise DropItem('Tender already exists and won\'t be added to db')
+
 
         else:
             spider.log('Item will be added to db.')
