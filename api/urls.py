@@ -47,12 +47,12 @@ urlpatterns = [
                     DemoTendersList.as_view(),
                     name=DemoTendersList.name),
 
-               # path('tenders/<tenders_by_categories>/',
-               #      FilteredTenderList.as_view(),
-               #      name=FilteredTenderList.name),
-               path('search',
+               path('tenders/<tenders_by_categories>/',
                     FilteredTenderList.as_view(),
                     name=FilteredTenderList.name),
+               # path('search',
+               #      FilteredTenderList.as_view(),
+               #      name=FilteredTenderList.name),
 
 
     ]
