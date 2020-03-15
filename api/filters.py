@@ -38,7 +38,7 @@ class byWordFilter(FilterSet):
     """
 
     description = CharFilter(field_name='description',
-                                      lookup_expr='icontains')
+                            lookup_expr='icontains')
 
     # so you can add new field in filter in Filters at brawseable api view
     # number_contains = CharFilter(field_name='number',
