@@ -15,7 +15,7 @@ from django.db.models import Q
 from rest_framework.viewsets import ModelViewSet
 
 from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, CharFilter, BaseInFilter
- 
+
 #  old -----------------------------------------------
 class TendersAPIView(generics.ListAPIView):
     queryset = Tenders.objects.all()
@@ -27,7 +27,7 @@ class CategoryList(generics.ListAPIView):
     queryset = KeyWord.objects.all()
     serializer_class = CategorySerializer
     name = "All categories list"
-    
+
     filter_backends = (filters.DjangoFilterBackend,)
     # filter_fields = ('category_name', 'category_descr',)
     search_fields = (
@@ -42,15 +42,15 @@ class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = KeyWord.objects.all()
     serializer_class = CategorySerializer
     name = "Category detail"
-    
-        
+
+
 class DemoTendersList(generics.ListAPIView):
-    """Last or more expensive valid tenders """ 
+    """Last or more expensive valid tenders """
     today = date.today()
     queryset = Tenders.objects.filter(deadline__gte=today)[:10]
     serializer_class = TenderSerializer
     name = 'Demo tenders-list'
-    
+
 
 class TenderList(generics.ListAPIView):
     """All valid tenders list
@@ -59,22 +59,21 @@ class TenderList(generics.ListAPIView):
     """
     name = 'TenderList'
     serializer_class = TenderSerializer
-    
+
+    # временно
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = byWordFilter
-    
+    # filterset_fields = {
+    #     'description': ['icontains',]
+    #     }
+
+
     def get_queryset(self):
         valid_tenders = Tenders.objects.filter(deadline__gte=date.today())
         return valid_tenders
 
-    # появляется фильтр в закладке и хорошо ищет по слову или части 
+    # появляется фильтр в закладке и хорошо ищет по слову или части
     # тк в фильтре указано contains
-
-
-    # появляются в фильтры ф закладке Filters, но так НЕ находит ничего
-    # видимо ищет единстевнное слово а не вхождения 
-    # filter_fields = ('description', 'customer',)
-    # search_fields = ('^description',)
 
 
 class AllTendersList(generics.ListAPIView):
@@ -87,10 +86,21 @@ class AllTendersList(generics.ListAPIView):
     filter_backends = (DjangoFilterBackend,)
     filter_class = byWordFilter
 
+
 class FilteredTenderList(generics.ListAPIView):
-    """ /tenders/'here one or some keywords' from list below:
-        all, asutp, data centre, lan, soft, hardware, ventilation, security_alarm...
-        For example: <host>/api/tenders/lan,asutp
+    """
+    /tenders/'here one or some keywords' from list below:
+    For example: <host>/api/v1/tenders/lan, asutp
+        all,
+        asutp,
+        data
+        centre,
+        lan,
+        soft,
+        hardware,
+        ventilation,
+        security_alarm...
+
     """
 
     name = 'Tenders list filtered by categories'
@@ -104,12 +114,15 @@ class FilteredTenderList(generics.ListAPIView):
         This view should return a list of all tenders for
         categories as determined by the category_request portion of the URL.
         """
-        
+        # # proba
+        # print(self.request.GET)
+        # print(self.kwargs)
+
         wanted_items = set()
         category_list = (
                         'all',
                         'asutp',
-                        'data centre', 
+                        'data centre',
                         'lan',
                         'soft, hardware',
                         'ventilation',
@@ -118,24 +131,24 @@ class FilteredTenderList(generics.ListAPIView):
 
         # get list requested categories from GET request
         # and check if they are in category_list
-        
+
         requested_categories = [
-                                category.strip() for category in category_list 
-                                if category in self.kwargs['tenders_by_categories'].lower()
+                        category for category in category_list
+                        if category in self.kwargs['tenders_by_categories'].lower()
                                 ]
-                
+
         if 'all' in requested_categories:
             return Tenders.objects.filter(deadline__gte=date.today())
-        
+
         for category in requested_categories:
             obj = KeyWord.objects.get(category_name__startswith=category)
             plus_keywords = [word.strip() for word in obj.plus_keywords.split(',')]
             minus_keywords =[word.strip() for word in obj.minus_keywords.split(',')]
             print('Requested CATEGORY: ', category)
-            
+
         # filter by plus_keywords
-        # TODO: improve filter 
-        #           now filters both by IP: 
+        # TODO: improve filter
+        #           now filters both by IP:
         #           ip networks - good
         #           PhilIPs - bad
             for word in plus_keywords:
@@ -148,7 +161,7 @@ class FilteredTenderList(generics.ListAPIView):
                     print('Number: ', item.number)
                     print('Description: ', item.description)
                     print('----------------------------------------------\n')
-                    
+
                     wanted_items.add(item.pk)
 
         # TODO: add using minus word
@@ -169,11 +182,11 @@ class ApiRoot(generics.GenericAPIView):
         /categories/'number'/ - category detail, CRUD
         /tenders/demo - list of 10 valid more expensive or newest tenders
         /tenders/all/ - list of all tenders, invalid too
-        /tenders/all-valid - list of all valid tenders 
+        /tenders/all-valid - list of all valid tenders
         /tenders/'tenders_by_categories' - filter data by cetegory like this:
             all, lan, ventilation, asutp, data centre, soft, hardware, ventilation,
             security_alarm...
-            
+
             Examples:
             /tenders/lan,asutp
             /tenders/soft,hardware
@@ -194,5 +207,5 @@ class ApiRoot(generics.GenericAPIView):
 
                         'valid-tender-list': reverse(TenderList.name,
                                                      request=request),
-                           
+
                         })

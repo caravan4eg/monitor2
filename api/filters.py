@@ -13,11 +13,11 @@ class SomewordsFilter(BaseInFilter, CharFilter):
 class SearchFilter(FilterSet):
     # multiple search doesn't work
     # looks up only obe field
-    # description_contains = SomewordsFilter(field_name='description', 
+    # description_contains = SomewordsFilter(field_name='description',
                                         #    lookup_expr='icontains')
-    
+
     # single search works
-    description_contains = CharFilter(field_name='description', 
+    description_contains = CharFilter(field_name='description',
                                            lookup_expr='icontains')
 
     class Meta:
@@ -32,16 +32,16 @@ class SearchFilter(FilterSet):
 
 
 class byWordFilter(FilterSet):
-    """ Filters all tenders by all fields by given word in Filters form 
+    """ Filters all tenders by all fields by given word in Filters form
         or from GET request like this:
-        .../api/tenders/all-valid?search_word='enter word here'
+        .../api/tenders/all-valid?description='enter word here'
     """
-    
-    search_word = CharFilter(field_name='description', 
+
+    description = CharFilter(field_name='description',
                                       lookup_expr='icontains')
-                                          
-    # so you can add new field in filter in Filters at brawseable api view 
-    # number_contains = CharFilter(field_name='number', 
+
+    # so you can add new field in filter in Filters at brawseable api view
+    # number_contains = CharFilter(field_name='number',
     #                                   lookup_expr='contains')
     # and after add field to Meta field
 

@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     # local
     'django_app',
     'api',
@@ -150,7 +150,7 @@ REST_FRAMEWORK = {
 REDIS_HOST = 'localhost'
 REDIS_PORT = '6379'
 BROKER_URL = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
-BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600} 
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
 CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 
 # CELERY SETTINGS
@@ -169,7 +169,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_WORKER_MAX_TASKS_PER_CHILD=1
 
 # Configure Django App for Heroku.
-import django_heroku
-django_heroku.settings(locals())
+# import django_heroku
+# django_heroku.settings(locals())
 
 CORS_ORIGIN_ALLOW_ALL = True

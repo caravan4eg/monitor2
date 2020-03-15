@@ -7,7 +7,7 @@ from scrapy import signals
 from datetime import date
 import scrapy_project.params
 
-from scrapy_project.items import TenderItem  
+from scrapy_project.items import TenderItem
 
 from time import sleep
 import random
@@ -25,7 +25,7 @@ class IceSpiderSpider(scrapy.Spider):
     allowed_domains = ['icetrade.by']
     today_is = date.today().strftime("%d.%m.%Y")
     custom_settings = {
-                    
+
                     'CONCURRENT_REQUESTS': 1,
                     'CONCURRENT_REQUESTS_PER_DOMAIN': 1,
                     'FEED_FORMAT': 'csv',
@@ -35,7 +35,7 @@ class IceSpiderSpider(scrapy.Spider):
     proxies = {}
 
     def get_proxy_meta(self):
-        meta =  {}
+        meta = {}
         proxy = min(self.proxies, key=self.proxies.get)
         self.proxies[proxy] += 1
         meta['download_slot'] = proxy
@@ -66,7 +66,7 @@ class IceSpiderSpider(scrapy.Spider):
             row_data = row.xpath('.//td/text()').getall()
             # proxy_item['ip'] = row.xpath('.//td/text()')[0].get()
             # proxy_item['port'] = row.xpath('.//td/text()')[1].get()
-            
+
             # because can be too few elite proxy
             # host_port = row_data[0]+':'+row_data[1]
             # self.proxies[host_port] = 0
@@ -77,7 +77,7 @@ class IceSpiderSpider(scrapy.Spider):
                 self.proxies[host_port] = 0
                 print(f'Elite proxy URL: {host_port}')
 
-                
+
 
         if len(list(self.proxies)) > 0:
             yield scrapy.Request(url=scrapy_project.params.url_pattern.format(str(1)),
@@ -98,12 +98,12 @@ class IceSpiderSpider(scrapy.Spider):
 
         for i in range(int(last_page)+1):
         # for i in range(1):  # scrape some pages for test, not all
-            
+
             # request next page and callback to Parse page function
             logging.info(f'==========  Processing page: {str(i)}  ===========')
             sleep(randint(5, 10))
             yield scrapy.Request(
-                                scrapy_project.params.url_pattern.format(str(i)), 
+                                scrapy_project.params.url_pattern.format(str(i)),
                                 meta=self.get_proxy_meta(),
                                 callback=self.parse_page,
                                 priority=RESULT_PAGE_PRIORITY
@@ -112,7 +112,7 @@ class IceSpiderSpider(scrapy.Spider):
     def parse_page(self, response):
         """ Extract tender information """
         logging.info('~~~~~~~~~~~~ Start exrtacting data from page ~~~~~~~~~~')
-        
+
         # item = {}
         for line in response.xpath('//*/tr[contains(@class, "rw")]'):
             item = TenderItem()
@@ -127,11 +127,11 @@ class IceSpiderSpider(scrapy.Spider):
             yyyymmdd = ddmmyyyy[6:] + "-" + ddmmyyyy[3:5] + "-" + ddmmyyyy[:2]
             item['deadline'] = yyyymmdd
 
-            # self.logger.info('\n**** <parse_page>: scrapping tender <%s>:' % item['number'])        
+            # self.logger.info('\n**** <parse_page>: scrapping tender <%s>:' % item['number'])
             yield item
 
         sleep(randint(1, 3))
-            
+
         print('~~~~~~~~~~~~ Extracting ended. ~~~~~~~~~~')
 
     def err_back(self, failure):
