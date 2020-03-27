@@ -1,91 +1,43 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html lang="en" <html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'css/all.css'%}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
+    <!-- Custom -->
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+    <!-- Lightbox -->
+    <link rel="stylesheet" href="{% static 'css/lightbox.min.css'%}">
 
-<head>
-      
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-
-
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-   <title>
- 
-      {% block title %}
-      TenderMonitor
-      {% endblock title %}
+    <title>
+    ТендерМонитор Сервис | {% block title %} {% endblock title %}
     </title>
+  </head>
 
-    <meta name="description" content="tender, monitor">
-    <meta name="author" content="Aleksandr Apanassik">
+  <body>
 
-    <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:300|Source+Sans+Pro:300,300i,400,400i,600,600i" rel="stylesheet">
+    <!-- Top Bar -->
+    {% include 'partials/_topbar.html' %}
 
-</head>
+    <!-- Navbar -->
+    {% include 'partials/_navbar.html' %}
 
-<body>
+    <!-- Main Content -->
+    {% block content %} {% endblock %}
 
-   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-         <a class="navbar-brand" href="{% url 'home' %}">TenderMonitor w/Nick</a>
-         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-           <span class="navbar-toggler-icon"></span>
-         </button>
-       
-         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-           <ul class="navbar-nav mr-auto">
-            
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'home' %}">HTML</a>
-            </li>
-                
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'TenderMonitor API-root' %}">API</a>
-            </li>
-            
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'about' %}">Workflow</a>
-            </li>
-<!--              
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                 Dropdown
-              </a>
-            
-              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
-            </li>
-            
-            <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
-            </li> -->
-           
-          </ul>
-           <form class="form-inline my-2 my-lg-0">
-             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-           </form>
-         </div>
-       </nav>
+    <!-- Footer -->
+    {% include 'partials/_footer.html' %}
 
+    {% comment %} <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script> {% endcomment %}
+    {% comment %} <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/lightbox.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script> {% endcomment %}
 
-
-   <div class="container mb-5">
-      <div class="row">
-         <div class="offset-md-1">
-         {% block content %}
-         {% endblock content %}
-      </div>
-      </div>
-   </div>
-   
-
-   <hr> &copy; caravan4eg & Co 2019
-   </div>
-</body>
-
+  </body>
 </html>
