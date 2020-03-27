@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    'django.contrib.humanize',
 ]
 
 
@@ -124,12 +125,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-
-STATIC_URL = '/static/'
-
-
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS':
     # 'rest_framework.pagination.LimitOffsetPagination',
@@ -173,3 +168,18 @@ CELERY_WORKER_MAX_TASKS_PER_CHILD=1
 # django_heroku.settings(locals())
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+# ------------------------------------------------------------
+#                           Static files
+# CSS, JavaScript, Images
+# https://docs.djangoproject.com/en/3.0/howto/static-files/
+# ------------------------------------------------------------
+
+# Static asset configuration
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)

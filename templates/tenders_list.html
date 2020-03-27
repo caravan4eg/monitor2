@@ -2,13 +2,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Актуальные тендеры и конкурсные закупоки</h1>
+<h1>Актуальные тендеры и конкурсные закупки</h1>
 <hr />
 <ul>
   {% for tender in all_tenders_list %}
       <div class="card mb-4">
         <div class="card-header">
-          №{{ tender.number }} | {{ tender.customer }} 
+          №{{ tender.number }} | {{ tender.customer }}
         </div>
         <div class="card-body">
           {#<h5 class="card-title">XXX</h5>#}
