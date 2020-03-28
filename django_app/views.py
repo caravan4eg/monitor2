@@ -3,6 +3,7 @@ from django.views.generic import ListView, TemplateView
 from .models import KeyWord, Tenders
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+from datetime import date, datetime
 
 
 class HomePageView(ListView):
@@ -11,7 +12,7 @@ class HomePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['tenders_list'] = Tenders.objects.order_by('-deadline')[:3]
+        context['tenders_list'] = Tenders.objects.all().exclude(price__iexact='0')[:4]
         return context
 
 
@@ -77,3 +78,37 @@ def search(request):
         'values': request.GET
     }
     return render(request, 'listings/search.html', context)
+
+
+# class SimpleSearch(ListView):
+#     model = Tenders
+#     template_name = 'search.html'
+
+#     def get_context_data(self, **kwargs):
+#         context = super(HomePageView, self).get_context_data(**kwargs)
+#         context['tenders_list'] = Tenders.objects.order_by('-deadline').filter(deadline__gte=date.today())
+
+#         .filter(description__icontains=keywords)
+#         return context
+
+
+def simple_search(request):
+    queryset = Tenders.objects.all().filter(deadline__gte=date.today())
+    print('request.GET', request.GET)
+
+    if 'keywords' in request.GET:
+        keywords = request.GET['keywords']
+        print('request.GET[keywords]', request.GET['keywords'])
+
+        # if keywords not empty we'll filter by keywords by field "description"
+        if keywords:
+            queryset = queryset.filter(description__icontains=keywords)
+
+    context = {
+        # items from DB after all previously made filters
+        'tenders': queryset,
+
+        # transfer back all requested params to display them in form
+        'values': request.GET
+    }
+    return render(request, 'simple_search.html', context)
