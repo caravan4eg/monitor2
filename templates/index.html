@@ -70,7 +70,7 @@
                     <h5 class="card-title"> № {{tender.number}}</h5>
                     <hr>
                     {% if tender.price != '0'%}
-                      <p class="card-text">Стоимость: {{tender.price}} BYN</p>
+                      <p class="card-text">Стоимость: <b>{{tender.price}} BYN</b></p>
                     {% endif %}
                     <p class="card-text">Заказчик: {{tender.customer|truncatechars:50}}</p>
                     <p class="card-text">Заявка: {{tender.description|truncatechars:250}}</p>

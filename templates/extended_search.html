@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}
+Search
+{% endblock title %}
+{% block content %}
+
+<!-- Rewrite to Extended search form -->
+  <section id="showcase-inner" class="showcase-search text-white py-5">
+    <div class="container">
+      <div class="row text-center">
+      <h2 class="display-4 mb-4"> Расширенный поиск </h2>
+        <div class="col-md-12">
+          <form action="{% url 'extended_search' %}">
+            <!-- Form Row 1 -->
+              <div class="feature text-left">
+              <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-secondary pull-left">
+                  <input type="radio" name="state" value="0" autocomplete="off" checked> Актуальные </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="state" value="1" autocomplete="off"> Архивные </label>
+                <label class="btn btn-secondary">
+                  <input type="radio" name="state" value="2" autocomplete="off"> Все </label>
+              </div>
+              </div>
+
+
+            <!-- Form Row 2 keywords in description-->
+            {% comment %} <div class="form-row">
+              <div class="col-md-11"> {% endcomment %}
+               <div class="form-group text-left">
+                <label for="keywords_input">Поиск по слову в описании</label>
+                <input type="text" id="keywords_input" name="keywords" class="form-control" aria-describedby="keywordsHelp" placeholder="Введите искомое слово" value="{{values.keywords}}">
+                <small id="keywordsHelp" class="form-text text-muted">Например, "видеонаблюдение" или "проектирование".</small>
+
+              </div>
+            {% comment %} </div> {% endcomment %}
+
+            <!-- Form Row 3 customer-->
+              <div class="form-group text-left">
+                <label for="customer_input">Поиск наименованию заказчика/организатора</label>
+                <input type="text" id="customer_input" name="customer" class="form-control" placeholder="" value="{{values.keywords}}">
+                {% comment %} <small id="keywordsHelp" class="form-text text-muted">ххх</small> {% endcomment %}
+              </div>
+
+            <!-- Form Row 4 number -->
+              <div class="form-group text-left">
+                <label for="number_input">Поиск наименованию номеру тендера/заявки</label>
+                <input type="text" id="customer_input" name="number" class="form-control" placeholder="" value="{{values.keywords}}">
+                {% comment %} <small id="keywordsHelp" class="form-text text-muted">ххх</small> {% endcomment %}
+              </div>
+
+            <!-- Category choosing -->
+
+            <button class="btn btn-secondary mt-6" type="submit">Поиск</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">
+              <i class="fas fa-home"></i> На главную</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a href="{% url 'simple_search' %}">Простой поиск</a>
+          </li>
+          <li class="breadcrumb-item active"> Результаты поиска</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+  <!-- Table of results -->
+  <section id="listings" class="py-4">
+  <div class="container">
+  {% if tenders %}
+  <h2>Актуальные тендеры</h2>
+  <table class="table table-hover thead-dark  table-responsive">
+    <thead>
+      <tr>
+        <th>Описание предмета закупки</th>
+        <th>Номер</th>
+        <th>Заказчик/организатор</th>
+        <th style="text-align:center">Стоимость, BYN</th>
+        <th style="text-align:center">Прием предложений до:</th>
+        <th style="text-align:center">Побробности</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for tender in tenders  %}
+        <tr>
+          <td>{{ tender.description|truncatechars:150}}</td>
+          <td>{{ tender.number }}</td>
+          <td>{{ tender.customer }}</td>
+          <td>{{ tender.price }}</td>
+          <td>{{ tender.deadline }}</td>
+          <td><a href="{{ tender.url_addr }}" target="_blank">Подробно</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% else %}
+      <div class="col-md-6">
+        <p>Таких заявок нет</p>
+      </div>
+  {% endif %}
+</div>
+
+
+{% endblock content %}
