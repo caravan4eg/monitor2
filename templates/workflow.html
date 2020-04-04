@@ -1,0 +1,97 @@
+<!-- templates/about.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Site coding workflow{% endblock title %}
+
+{% block content %}
+
+  <section id="showcase-workflow" class="py-5 text-white">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <h1 class="display-4">Workflow by TenderMonitor coding</h1>
+          <p class="lead">Django | Django REST API | PostgreSQL | Scrapy | Redis+Celery | Bootstrap  </p>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">
+              <i class="fas fa-home"></i> Главная   </a>
+          </li>
+          {% comment %} <li class="breadcrumb-item">
+            <a href="{% url 'simple_search' %}">Простой поиск</a>
+          </li> {% endcomment %}
+          <li class="breadcrumb-item active"> Workflow </li>
+        </ol>
+      </nav>
+    </div>
+  </section>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <ul>
+                <li>+ Make simple Django Web server with HTML pages</li>
+                <li>+ Create models at django_app/models.py </li>
+                <li>+ Create Admin interface, superuser </li>
+                <li>+ Install psycopg2 </li>
+                <li>+ Config Postgresql database in settings.py </li>
+                <li>+ Change home.html to display Tender list from the database via an HTML page</li>
+                <li>+ Create Web API service. Make endpoint for displaying Tenders list
+                    <ul>
+                        <li> + Install Django REST Framework - DRF -> pipenv install djangorestframework</li>
+                        <li> + Update django_project/settings.py -> 'rest_framework',</li>
+                        <li> + Create new applications to handle API -> python manage.py startapp api</li>
+                        <li> + Update django_project/settings.py -> 'api',</li>
+                        <li> + Update project level urls -> add path('api/v1/', include('api.urls')),</li>
+                        <li> + Create and update api/urls.py and add route for TendersAPIView</li>
+                        <li> + Update api/views.py -> class TendersAPIView</li>
+                        <li> + Create api/serializers.py - class TendersSerializer</li>
+                        <li> + Make pagination -> add rest_framework section to django_project/settings.py and
+                            api/custompagination.py</li>
+                    </ul>
+                </li>
+                <li> + Tune up Scrapy Spider
+                    <ul>
+                        <li> + scrapy_project/settings.py -> ROBOTSTXT_OBEY = False</li>
+                        <li> + scrapy_project/settings.py -> COOKIES_ENABLED = False</li>
+                        <li> + Create spider icetrade</li>
+                        <li> + Create Items and Pipelines</li>
+                        <li> + Update scrapy_project/settings.py -> ITEM_PIPELINES = {'scrapy_project.pipelines.TenderPipeline':
+                            300,} </li>
+                        <li> + Add User Agent rotate feature (install and updete settings.py )</li>
+                        <li> + Spider icetrade: runs manually from terminal-OK, exports to csv-OK, saves PostgreSQL-OK</li>
+                    </ul>
+                </li>
+
+                <li> + Tune up backround task running </li>
+                <ul>
+                    <li> + Install and Config Celery and Redis</li>
+                    <li> + Install Celery/Redis -> pip install -U Celery redis</li>
+                    <li> + Create celery.py and tasks.py
+                    <li> + Create Celery -> touch django_project/celery.py</li>
+                    <li> + Create task -> touch django_app/tasks.py</li>
+                    <li> + Update django_project/__init__.py</li>
+                    <li> + Add redis celery config to # django_project/settings.py</li>
+                    <li> + Run shell, workers, redis-server</li>
+                    <li> + Add celery.schedules to celery.py, run celery-beat</li>
+                    <li> + Check periodic task </li>
+                </ul>
+                <li> + Create new_search branch. Changed search algorithm and implemented Search class</li>
+                <li> + Bootstrap front-end added</li>
+                <li> + Extended search by keywords and categories added</li>
+                <li> - Deploy to production </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

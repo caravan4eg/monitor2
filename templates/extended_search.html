@@ -6,26 +6,22 @@ Search
 {% block content %}
 
 <!-- Showcase -->
-<section id="showcase">
+<section id="showcase-inner">
   <div class="container text-center">
     <div class="home-search p-5">
       <div class="overlay p-5">
-        <h1 class="display-4 mb-4">
-          Расширенный поиск
-        </h1>
-
-        <div class="search">
+        <h1 class="display-4 mb-4">Расширенный поиск тендеров и заявок</h1>
 
           <form action="{% url 'extended_search' %}">
             <div class="form-row">
-              <div class="col-md-11 ">
-                <div class="feature text-left">
-                  <div class="btn-group" data-toggle="buttons">
-                    <label class="btn btn-secondary pull-left">
+              <div class="col">
+                <div class="feature text-center">
+                  <div class="btn-group mb-2" data-toggle="buttons" >
+                    <label class="btn btn-outline-light ">
                     <input type="radio" name="state" value="0" autocomplete="off" checked> Актуальные </label>
-                    <label class="btn btn-secondary">
+                    <label class="btn btn-outline-light ">
                     <input type="radio" name="state" value="1" autocomplete="off"> Архивные </label>
-                    <label class="btn btn-secondary">
+                    <label class="btn btn-outline-light ">
                     <input type="radio" name="state" value="2" autocomplete="off"> Все </label>
                   </div>
                 </div>
@@ -48,63 +44,100 @@ Search
 
             <!-- Form Row 4 number -->
             <div class="form-group text-left">
-              <label for="number_input">Поиск наименованию номеру тендера/заявки</label>
+              <label for="number_input">Поиск номеру </label>
               <input type="text" id="number_input" name="number" class="form-control" placeholder="" value="{{values.keywords}}">
             </div>
 
             <!-- Category choosing -->
+            <!--
+            - 1. АСУТП. Телемеханика. АСКУЭ. Диспетчеризация. Keyword - asutp
+            - 2. Центры обработки данны, дата центры.  Keyword - data centre
+            - 3. Компьютерные сети, сетевое оборудование. Телефония.  Keyword - lan
+            - 4. Охранная сигнализация и пожарная сигнализация.  Keyword - security_alarm
+            - 5. Компьютерное оборудование и программное обеспечение   Keyword - soft, hardware
+
+
+            -->
             <p class="lead"> Выбор категории</p>
             <div class="row">
               <div class="col">
 
-                <!--lan-->
+                <!-- 1 asutp -->
                 <div class="form-check text-left">
-                  <input type="checkbox" class="form-check-input" id="lanCheck" name="lan">
-                  <label class="form-check-label" for="lanCheck" >Компьютерные сети</label>
+                  <input  type="checkbox"
+                          class="form-check-input"
+                          name="asutp">
+                  <label  class="form-check-label" for="lanCheck" >
+                          1. АСУТП. Телемеханика. АСКУЭ. Диспетчеризация
+                  </label>
                 </div>
-                <!--soft-->
+
+                <!-- 2 data_centre -->
                 <div class="form-check text-left">
-                  <input type="checkbox" class="form-check-input" id="softCheck" name="soft">
-                  <label class="form-check-label" for="softCheck" >Программное обеспечение</label>
+                  <input  type="checkbox"
+                          class="form-check-input"
+                          id="data_centreCheck"
+                          name="data_centre">
+                  <label  class="form-check-label"
+                          for="data_centreCheck" >
+                          2. Центры обработки данных, дата центры
+                  </label>
                 </div>
-                <!--hard-->
+
+                <!-- 3 lan -->
                 <div class="form-check text-left">
-                  <input type="checkbox" class="form-check-input" id="hardCheck" name="hard">
-                  <label class="form-check-label" for="hardCheck" >Сетевое и компьютерное оборудование</label>
+                  <input  type="checkbox"
+                          class="form-check-input"
+                          id="lanCheck" name="lan">
+                  <label  class="form-check-label"
+                          for="lanCheck" >
+                          3. Компьютерные сети, сетевое оборудование. Телефония
+                  </label>
                 </div>
               </div>
+
               <div class="col">
-                <!--lan-->
+                <!-- 4 security_alarm -->
                 <div class="form-check text-left">
-                  <input type="checkbox" class="form-check-input" id="lanCheck" name="lan">
-                  <label class="form-check-label" for="lanCheck" >Компьютерные сети</label>
+                  <input  type="checkbox"
+                          class="form-check-input"
+                          id="security_alarmCheck" name="security_alarm">
+                  <label  class="form-check-label"
+                          for="security_alarmCheck" >
+                          4. Охранная сигнализация и пожарная сигнализация
+                  </label>
                 </div>
-                <!--soft-->
+
+                <!-- 5 hard_soft -->
                 <div class="form-check text-left">
-                  <input type="checkbox" class="form-check-input" id="softCheck" name="soft">
-                  <label class="form-check-label" for="softCheck" >Программное обеспечение</label>
+                  <input  type="checkbox"
+                          class="form-check-input"
+                          id="hard_softCheck" name="hard_soft">
+                  <label  class="form-check-label"
+                          for="hard_softCheck">
+                          5. Компьютерное оборудование и программное обеспечение
+                  </label>
                 </div>
-                <!--hard-->
+                <!-- 6 electro-->
                 <div class="form-check text-left">
-                  <input type="checkbox" class="form-check-input" id="hardCheck" name="hard">
-                  <label class="form-check-label" for="hardCheck" >Сетевое и компьютерное оборудование</label>
+                  <input  type="checkbox"
+                          class="form-check-input"
+                          id="electroCheck"
+                          name="electro">
+                  <label  class="form-check-label"
+                          for="electroCheck" >
+                          6. Электротехника</label>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <button class="btn btn-secondary" type="submit"> Найти </button>
-
+        <button class="btn btn-secondary btn-block  mt-4" type="submit"> Найти </button>
       </form>
-
-        </div>
       </div>
     </div>
   </div>
 </section>
-
-
 
   <!-- Breadcrumb -->
   <section id="bc" class="mt-3">
@@ -113,12 +146,12 @@ Search
         <ol class="breadcrumb">
           <li class="breadcrumb-item">
             <a href="{% url 'home' %}">
-              <i class="fas fa-home"></i> На главную</a>
+              <i class="fas fa-home"></i> Главная   </a>
           </li>
-          <li class="breadcrumb-item">
+          {% comment %} <li class="breadcrumb-item">
             <a href="{% url 'simple_search' %}">Простой поиск</a>
-          </li>
-          <li class="breadcrumb-item active"> Результаты поиска</li>
+          </li> {% endcomment %}
+          <li class="breadcrumb-item active"> Расширенный поиск</li>
         </ol>
       </nav>
     </div>

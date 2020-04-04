@@ -33,22 +33,12 @@
         </li>
 
         <li
-          {% if 'listings' in request.path %}
+          {% if 'extended_search' in request.path %}
             class="nav-item active mr-3"
           {% else %}
             class="nav-item mr-3"
           {% endif %}>
-          <a class="nav-link" href="{% url 'home' %}">Тендеры</a>
-        </li>
-
-<!-- ----------------------------------- -->
-        <li
-          {% if 'api' in request.path %}
-            class="nav-item active mr-3"
-          {% else %}
-            class="nav-item mr-3"
-          {% endif %}>
-          <a class="nav-link" href="{% url 'TenderMonitor API-root' %}">API</a>
+          <a class="nav-link" href="{% url 'extended_search' %}">Расширенный поиск</a>
         </li>
 
         <li
@@ -57,7 +47,16 @@
           {% else %}
             class="nav-item mr-3"
           {% endif %}>
-          <a class="nav-link" href="{% url 'about' %}">Процесс</a>
+          <a class="nav-link" target="_blank" href="{% url 'TenderMonitor API-root' %}">API</a>
+        </li>
+
+        <li
+          {% if 'workflow' in request.path %}
+            class="nav-item active mr-3"
+          {% else %}
+            class="nav-item mr-3"
+          {% endif %}>
+          <a class="nav-link" href="{% url 'workflow' %}">Процесс</a>
         </li>
 
 

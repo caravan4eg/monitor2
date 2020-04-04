@@ -14,13 +14,19 @@ class HomePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['tenders_list'] = Tenders.objects.all().exclude(price__iexact='0')[:4]
+        context['tenders_list'] = Tenders.objects.all().exclude(price__iexact='0')[
+            :4]
         return context
 
 
 class AboutPageView(TemplateView):
-    """Notes about workflow - html page"""
+    """Notes about about - html page"""
     template_name = 'about.html'
+
+
+class WorkflowPageView(TemplateView):
+    """Notes about workflow - html page"""
+    template_name = 'workflow.html'
 
 
 def search(request):
@@ -40,7 +46,8 @@ def search(request):
 
         # if keywords not empty we'll filter by keywords by field "description"
         if keywords:
-            queryset_list = queryset_list.filter(description__icontains=keywords)
+            queryset_list = queryset_list.filter(
+                description__icontains=keywords)
 
     # Filter by City
     if 'city' in request.GET:
@@ -121,7 +128,7 @@ def extended_search(request):
     queryset = Tenders.objects.all()
     query = request.GET
     if query:
-        print('*'*30 + 'Request for extended search' + '*'*30 )
+        print('*'*30 + 'Request for extended search' + '*'*30)
         print('state: ', query['state'])
         print('keywords:', query['keywords'])
         print('customer:', query['customer'])

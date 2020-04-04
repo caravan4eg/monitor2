@@ -3,7 +3,7 @@
 {% load static %}
 
 
-{% block title %} ТендерМонитор {% endblock title %}
+{% block title %} Главная {% endblock title %}
 {% block content %}
 
 <!-- Showcase -->
@@ -35,7 +35,20 @@
     </div>
   </div>
 </section>
-
+    <!-- Breadcrumb -->
+  <section id="bc" class="mt-3">
+    <div class="container">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          {% comment %} <li class="breadcrumb-item">
+            <a href="{% url 'home' %}">
+              <i class="fas fa-home"></i> Главная</a>
+          </li> {% endcomment %}
+          <li class="breadcrumb-item active"> Главная</li>
+        </ol>
+      </nav>
+    </div>
+  </section>
 <main>
   <section id="about" class="py-4">
     <div class="container">
