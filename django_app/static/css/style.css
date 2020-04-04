@@ -18,12 +18,13 @@ img {
   background: url(../img/building.jpg);
   /* background: url(../img/showcase.jpg) no-repeat top center fixed/cover; */
   position: relative;
-  min-height: 500px;
+  min-height: 150px;
   color: #fff;
   padding-top: 6rem;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+  padding: 3rem;
 }
   #showcase .home-search {
     min-height: 300px;

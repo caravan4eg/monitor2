@@ -120,12 +120,13 @@ def simple_search(request):
 def extended_search(request):
     queryset = Tenders.objects.all()
     query = request.GET
-    print('*' * 50)
-    print('state: ', query['state'])
-    print('keywords:', query['keywords'])
-    print('customer:', query['customer'])
-    print('number:', query['number'])
-    print('*' * 50)
+    if query:
+        print('*'*30 + 'Request for extended search' + '*'*30 )
+        print('state: ', query['state'])
+        print('keywords:', query['keywords'])
+        print('customer:', query['customer'])
+        print('number:', query['number'])
+        print('*' * 50)
 
     def get_queryset(self):
         """

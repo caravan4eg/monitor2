@@ -5,59 +5,106 @@ Search
 {% endblock title %}
 {% block content %}
 
-<!-- Rewrite to Extended search form -->
-  <section id="showcase-inner" class="showcase-search text-white py-5">
-    <div class="container">
-      <div class="row text-center">
-      <h2 class="display-4 mb-4"> Расширенный поиск </h2>
-        <div class="col-md-12">
+<!-- Showcase -->
+<section id="showcase">
+  <div class="container text-center">
+    <div class="home-search p-5">
+      <div class="overlay p-5">
+        <h1 class="display-4 mb-4">
+          Расширенный поиск
+        </h1>
+
+        <div class="search">
+
           <form action="{% url 'extended_search' %}">
-            <!-- Form Row 1 -->
-              <div class="feature text-left">
-              <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-secondary pull-left">
-                  <input type="radio" name="state" value="0" autocomplete="off" checked> Актуальные </label>
-                <label class="btn btn-secondary">
-                  <input type="radio" name="state" value="1" autocomplete="off"> Архивные </label>
-                <label class="btn btn-secondary">
-                  <input type="radio" name="state" value="2" autocomplete="off"> Все </label>
-              </div>
-              </div>
+            <div class="form-row">
+              <div class="col-md-11 ">
+                <div class="feature text-left">
+                  <div class="btn-group" data-toggle="buttons">
+                    <label class="btn btn-secondary pull-left">
+                    <input type="radio" name="state" value="0" autocomplete="off" checked> Актуальные </label>
+                    <label class="btn btn-secondary">
+                    <input type="radio" name="state" value="1" autocomplete="off"> Архивные </label>
+                    <label class="btn btn-secondary">
+                    <input type="radio" name="state" value="2" autocomplete="off"> Все </label>
+                  </div>
+                </div>
 
-
-            <!-- Form Row 2 keywords in description-->
-            {% comment %} <div class="form-row">
-              <div class="col-md-11"> {% endcomment %}
-               <div class="form-group text-left">
-                <label for="keywords_input">Поиск по слову в описании</label>
-                <input type="text" id="keywords_input" name="keywords" class="form-control" aria-describedby="keywordsHelp" placeholder="Введите искомое слово" value="{{values.keywords}}">
-                <small id="keywordsHelp" class="form-text text-muted">Например, "видеонаблюдение" или "проектирование".</small>
-
+            <!-- Form Row 2 keywords & customer-->
+            <div class="row">
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="keywords_input">Поиск по предмету закупки</label>
+                  <input type="text" id="keywords_input" class="form-control" placeholder="Например: вентиляция, сервер, бумага ..." name="keywords" value="{{values.keywords}}">
+                </div>
               </div>
-            {% comment %} </div> {% endcomment %}
-
-            <!-- Form Row 3 customer-->
-              <div class="form-group text-left">
-                <label for="customer_input">Поиск наименованию заказчика/организатора</label>
-                <input type="text" id="customer_input" name="customer" class="form-control" placeholder="" value="{{values.keywords}}">
-                {% comment %} <small id="keywordsHelp" class="form-text text-muted">ххх</small> {% endcomment %}
+              <div class="col">
+                <div class="form-group text-left">
+                  <label for="customer_input">Поиск по наименованию заказчика</label>
+                  <input type="text" id="customer_input" name="customer" class="form-control" placeholder="Наименование заказчика" value="{{values.keywords}}">
+                </div>
               </div>
+            </div>
 
             <!-- Form Row 4 number -->
-              <div class="form-group text-left">
-                <label for="number_input">Поиск наименованию номеру тендера/заявки</label>
-                <input type="text" id="customer_input" name="number" class="form-control" placeholder="" value="{{values.keywords}}">
-                {% comment %} <small id="keywordsHelp" class="form-text text-muted">ххх</small> {% endcomment %}
-              </div>
+            <div class="form-group text-left">
+              <label for="number_input">Поиск наименованию номеру тендера/заявки</label>
+              <input type="text" id="number_input" name="number" class="form-control" placeholder="" value="{{values.keywords}}">
+            </div>
 
             <!-- Category choosing -->
+            <p class="lead"> Выбор категории</p>
+            <div class="row">
+              <div class="col">
 
-            <button class="btn btn-secondary mt-6" type="submit">Поиск</button>
-          </form>
+                <!--lan-->
+                <div class="form-check text-left">
+                  <input type="checkbox" class="form-check-input" id="lanCheck" name="lan">
+                  <label class="form-check-label" for="lanCheck" >Компьютерные сети</label>
+                </div>
+                <!--soft-->
+                <div class="form-check text-left">
+                  <input type="checkbox" class="form-check-input" id="softCheck" name="soft">
+                  <label class="form-check-label" for="softCheck" >Программное обеспечение</label>
+                </div>
+                <!--hard-->
+                <div class="form-check text-left">
+                  <input type="checkbox" class="form-check-input" id="hardCheck" name="hard">
+                  <label class="form-check-label" for="hardCheck" >Сетевое и компьютерное оборудование</label>
+                </div>
+              </div>
+              <div class="col">
+                <!--lan-->
+                <div class="form-check text-left">
+                  <input type="checkbox" class="form-check-input" id="lanCheck" name="lan">
+                  <label class="form-check-label" for="lanCheck" >Компьютерные сети</label>
+                </div>
+                <!--soft-->
+                <div class="form-check text-left">
+                  <input type="checkbox" class="form-check-input" id="softCheck" name="soft">
+                  <label class="form-check-label" for="softCheck" >Программное обеспечение</label>
+                </div>
+                <!--hard-->
+                <div class="form-check text-left">
+                  <input type="checkbox" class="form-check-input" id="hardCheck" name="hard">
+                  <label class="form-check-label" for="hardCheck" >Сетевое и компьютерное оборудование</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary" type="submit"> Найти </button>
+
+      </form>
+
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+
 
   <!-- Breadcrumb -->
   <section id="bc" class="mt-3">
