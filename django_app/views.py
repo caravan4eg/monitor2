@@ -127,13 +127,6 @@ def extended_search(request):
 
     if query is not None:
 
-        # remember last query for pagination
-        context['last_query'] = '&'
-        for key, value in query.items():
-            if key != 'page':
-                context['last_query'] += key + '=' + value + '&'
-        context['last_query'] = context['last_query'][:-1]
-
         # ----------- state 0, 1, 2 --------------------------------
         if 'state' in query:
             state = query['state']
@@ -160,6 +153,14 @@ def extended_search(request):
         # code here
 
         # Pagination
+        # remember last query for pagination
+        context['last_query'] = '&'
+        for key, value in query.items():
+            # page is not needed because will be added in html
+            if key != 'page':
+                context['last_query'] += key + '=' + value + '&'
+        context['last_query'] = context['last_query'][:-1]
+
         paginator = Paginator(listings, 10)
         page = query.get('page', 1)
         try:
