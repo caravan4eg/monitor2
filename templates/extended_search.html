@@ -26,18 +26,18 @@ Search
                   </div>
                 </div>
 
-            <!-- Form Row 2 keywords & customer-->
+            <!-- Form Row 2 keyword & customer-->
             <div class="row">
               <div class="col">
                 <div class="form-group text-left">
-                  <label for="keywords_input">Поиск по предмету закупки</label>
-                  <input type="text" id="keywords_input" class="form-control" placeholder="Например: вентиляция, сервер, бумага ..." name="keywords" value="{{values.keywords}}">
+                  <label for="keyword_input">Поиск по предмету закупки</label>
+                  <input type="text" id="keyword_input" class="form-control" placeholder="Например: вентиляция, сервер, бумага ..." name="keyword" value="{{values.keyword}}">
                 </div>
               </div>
               <div class="col">
                 <div class="form-group text-left">
                   <label for="customer_input">Поиск по наименованию заказчика</label>
-                  <input type="text" id="customer_input" name="customer" class="form-control" placeholder="Наименование заказчика" value="{{values.keywords}}">
+                  <input type="text" id="customer_input" name="customer" class="form-control" placeholder="Наименование заказчика" value="{{values.customer}}">
                 </div>
               </div>
             </div>
@@ -45,7 +45,7 @@ Search
             <!-- Form Row 4 number -->
             <div class="form-group text-left">
               <label for="number_input">Поиск номеру </label>
-              <input type="text" id="number_input" name="number" class="form-control" placeholder="" value="{{values.keywords}}">
+              <input type="text" id="number_input" name="number" class="form-control" placeholder="" value="{{values.number}}">
             </div>
 
             <!-- Category choosing -->
@@ -58,7 +58,7 @@ Search
 
 
             -->
-            <p class="lead"> Выбор категории</p>
+            <p class="lead"> Поиск по категории</p>
             <div class="row">
               <div class="col">
 
@@ -139,6 +139,7 @@ Search
   </div>
 </section>
 
+{% if listings %}
   <!-- Breadcrumb -->
   <section id="bc" class="mt-3">
     <div class="container">
@@ -157,10 +158,11 @@ Search
     </div>
   </section>
 
+
   <!-- Table of results -->
   <section id="listings" class="py-4">
   <div class="container">
-  {% if tenders %}
+  {% comment %} {% if listings %} {% endcomment %}
   <h2>Актуальные тендеры</h2>
   <table class="table table-hover thead-dark  table-responsive">
     <thead>
@@ -174,7 +176,7 @@ Search
       </tr>
     </thead>
     <tbody>
-      {% for tender in tenders  %}
+      {% for tender in listings.object_list  %}
         <tr>
           <td>{{ tender.description|truncatechars:150}}</td>
           <td>{{ tender.number }}</td>
@@ -193,6 +195,34 @@ Search
       </div>
   {% endif %}
 </div>
+<!--pagination-->
+   <div class="row">
+    <div class="col-md-12">
+    {% if listings.has_other_pages %}
+      <ul class="pagination">
+        {% if listings.has_previouse %}
+            <li class="page-item"><a href="?page={{listings.previous_page_number}}" class="page-link">&laquo;</a></li>
+        {% else %}
+            <li class="page-item disabled"><span>&laquo;</span></li>
+        {% endif %}
+
+        {% for i in listings.paginator.page_range %}
+            {% if listings.number == i %}
+              <li class="page-item active"><a class="page-link">{{ i }}</a></li>
+            {% else %}
+              <li class="page-item"><a href="?page={{i}}{{last_query}}" class="page-link">{{i}}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if listings.has_next %}
+      <li><a href="?page={{ listings.next_page_number }}{{last_query}}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+      </ul>
+    {% endif %}
+
+   </div>
+ </div>
 
 
 {% endblock content %}

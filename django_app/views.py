@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # django_app/views.py
 
 from django.views.generic import ListView, TemplateView
@@ -6,7 +5,7 @@ from .models import KeyWord, Tenders
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from datetime import date, datetime
-
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 class HomePageView(ListView):
     model = Tenders
@@ -32,7 +31,7 @@ class WorkflowPageView(TemplateView):
 def search(request):
     """
     Our GET request will be like this
-    http://127.0.0.1:8000/listings/search?keywords=pool&city=
+    http://127.0.0.1:8000/listings/search?keyword=pool&city=
     We will look if there is "keywords" or another query params are in request and then filter by them.
     All query params are there in request dict like this:
         <QueryDict: {'keywords': ['pool, garage'], 'city': ['']}>
@@ -103,7 +102,7 @@ def search(request):
 
 
 def simple_search(request):
-    queryset = Tenders.objects.all().filter(deadline__gte=date.today())
+    queryset = Tenders.objects.order_by('-deadline').filter(deadline__gte=date.today())
     print('request.GET', request.GET)
 
     if 'keywords' in request.GET:
@@ -115,78 +114,75 @@ def simple_search(request):
             queryset = queryset.filter(description__icontains=keywords)
 
     context = {
-        # items from DB after all previously made filters
         'tenders': queryset,
-
-        # transfer back all requested params to display them in form
         'values': request.GET
     }
     return render(request, 'simple_search.html', context)
 
 
 def extended_search(request):
-    queryset = Tenders.objects.all()
+    listings = Tenders.objects.all()
+    context = {}
+
+    # ---- just check what is inside request. Yuo can delete this peace of code
     query = request.GET
-            
-    # check what is inside request
+    print('request.GET', query)
     if query:
         print('*'*30 + 'Request for extended search' + '*'*30)
         for key, value in query.items():
             print(f'{key}: {value}')
-    print('*' * 80)
 
-    
-    def get_queryset(self):
-        """
-        url -> http://127.0.0.1:8000/api/v1/search/?description=lan&query=asutp
-        - self.request.GET
-        - self.request.query_params
-        return the same dict <QueryDict:
-        -> {'description': ['lan'], 'query': ['asutp']}>
-        - self.request.GET.get("query") -> returns value of query param
-        -> asutp
-        state 0,1,2:
-            actual tenders state = 0
-            archive tenders state = 1
-            all tenders actual and archive state = 2
-        """
-        queryset = Tenders.objects.all()[:5]
-        if not query:
-            return queryset
+        print('*' * 80)
+    # ----- Yuo can delete this peace of code
 
-        # ----------- state 0, 1, 2 --------------------------------
+    # ----------- state 0, 1, 2 --------------------------------
+    if query is not None:
+
+        # remember last query for pagination
+        context['last_query'] = '&'
+        for key, value in query.items():
+            if key != 'page':
+                context['last_query'] += key + '=' + value + '&'
+        context['last_query'] = context['last_query'][:-1]
+
         if 'state' in query:
             state = query['state']
-            print('State: ', state)
             if state == '0':
-                queryset = queryset.filter(deadline__gte=date.today())
+                listings = Tenders.objects.order_by('-deadline').filter(deadline__gte=date.today())
             elif state == '1':
-                queryset = queryset.filter(deadline__lte=date.today())
+                listings = Tenders.objects.order_by('-deadline').filter(deadline__lte=date.today())
             elif state == '2':
-                pass
-        # ----------- state 0, 1, 2 --------------------------------
+                listings = Tenders.objects.order_by('-deadline')
+        # ----------- keyword --------------------------------
+        if 'keyword' in query:
+            keyword = query['keyword']
+            if keyword:
+                listings = listings.filter(description__icontains=keyword)
+        # ----------- number --------------------------------
+        if 'number' in query:
+            number = query['number']
+            if number:
+                listings = listings.filter(number__icontains=number)
 
-        # Requested categories
-        if 'categories' in query:
-            categories = query['categories']
-            print('Requested categories: ', categories)
-            if 'all' in categories:
-                queryset = queryset
 
-        # Filter tender list by keywords in description
-        if 'keywords' in query:
-            keywords = query['keywords']
-            print('Requested keywords: ', keywords)
-            if keywords:
-                queryset = queryset.filter(description__icontains=keywords)
+        # ----------- categories --------------------------------
+        # code here
 
-        return queryset
+        # Pagination
+        paginator = Paginator(listings, 10)
+        page = query.get('page', 1)
 
-    context = {
-        # items from DB after all previously made filters
-        'tenders': queryset[:5],
+        try:
+            paged_listings = paginator.page(page)
+        except PageNotAnInteger:
+            paged_listings = paginator.page(1)
+        except EmptyPage:
+            paged_listings = paginator.page(paginator.num_pages)
 
-        # transfer back all requested params to display them in form
-        'values': request.GET
-    }
+        # Prepare context for transfering to html
+        context['listings'] = paged_listings
+        context['values'] = request.GET
+
+        print('last_query', context['last_query'])
+        print('Keys', context.keys())
     return render(request, 'extended_search.html', context)
