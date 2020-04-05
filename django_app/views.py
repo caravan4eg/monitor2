@@ -123,19 +123,8 @@ def simple_search(request):
 def extended_search(request):
     listings = Tenders.objects.all()
     context = {}
-
-    # ---- just check what is inside request. Yuo can delete this peace of code
     query = request.GET
-    print('request.GET', query)
-    if query:
-        print('*'*30 + 'Request for extended search' + '*'*30)
-        for key, value in query.items():
-            print(f'{key}: {value}')
 
-        print('*' * 80)
-    # ----- Yuo can delete this peace of code
-
-    # ----------- state 0, 1, 2 --------------------------------
     if query is not None:
 
         # remember last query for pagination
@@ -145,6 +134,7 @@ def extended_search(request):
                 context['last_query'] += key + '=' + value + '&'
         context['last_query'] = context['last_query'][:-1]
 
+        # ----------- state 0, 1, 2 --------------------------------
         if 'state' in query:
             state = query['state']
             if state == '0':
@@ -153,17 +143,18 @@ def extended_search(request):
                 listings = Tenders.objects.order_by('-deadline').filter(deadline__lte=date.today())
             elif state == '2':
                 listings = Tenders.objects.order_by('-deadline')
+
         # ----------- keyword --------------------------------
         if 'keyword' in query:
             keyword = query['keyword']
             if keyword:
                 listings = listings.filter(description__icontains=keyword)
+
         # ----------- number --------------------------------
         if 'number' in query:
             number = query['number']
             if number:
                 listings = listings.filter(number__icontains=number)
-
 
         # ----------- categories --------------------------------
         # code here
@@ -171,7 +162,6 @@ def extended_search(request):
         # Pagination
         paginator = Paginator(listings, 10)
         page = query.get('page', 1)
-
         try:
             paged_listings = paginator.page(page)
         except PageNotAnInteger:
@@ -183,6 +173,6 @@ def extended_search(request):
         context['listings'] = paged_listings
         context['values'] = request.GET
 
-        print('last_query', context['last_query'])
-        print('Keys', context.keys())
+        # print('last_query', context['last_query'])
+        # print('Keys', context.keys())
     return render(request, 'extended_search.html', context)
