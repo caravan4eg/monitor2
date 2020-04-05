@@ -127,14 +127,15 @@ def simple_search(request):
 def extended_search(request):
     queryset = Tenders.objects.all()
     query = request.GET
+            
+    # check what is inside request
     if query:
         print('*'*30 + 'Request for extended search' + '*'*30)
-        print('state: ', query['state'])
-        print('keywords:', query['keywords'])
-        print('customer:', query['customer'])
-        print('number:', query['number'])
-        print('*' * 50)
+        for key, value in query.items():
+            print(f'{key}: {value}')
+    print('*' * 80)
 
+    
     def get_queryset(self):
         """
         url -> http://127.0.0.1:8000/api/v1/search/?description=lan&query=asutp
@@ -149,10 +150,7 @@ def extended_search(request):
             archive tenders state = 1
             all tenders actual and archive state = 2
         """
-        query = self.request.GET
-
         queryset = Tenders.objects.all()[:5]
-        print(len(queryset))
         if not query:
             return queryset
 

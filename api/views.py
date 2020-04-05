@@ -7,7 +7,7 @@ from datetime import date, datetime
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from django_filters.rest_framework import DjangoFilterBackend
-from url_filter.integrations.drf import DjangoFilterBackend
+# from url_filter.integrations.drf import DjangoFilterBackend
 from .filters import SearchFilter, byWordFilter
 
 from django_filters import rest_framework as filters
