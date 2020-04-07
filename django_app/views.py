@@ -76,6 +76,49 @@ def extended_search(request):
             elif state == '2':
                 listings = Tenders.objects.order_by('-deadline')
 
+        # ----------- categories --------------------------------
+        # TODO: Make filter by categories
+
+        selected_categories = [key for key, value in query.items() if value == 'on']
+        if selected_categories:
+            print(f'{"*"*30} Selected category: {selected_categories}')
+
+
+            # get plus and minus keywords for selected category from DB
+            for category in selected_categories:
+                obj = KeyWord.objects.get(category_name__startswith=category)
+                plus_keywords = [word.strip() for word in obj.plus_keywords.split(',')]
+                minus_keywords = [word.strip() for word in obj.minus_keywords.split(',')]
+            print('************ Keywords for selected category: ')
+            print('Plus keywords:', plus_keywords)
+            print('Minus keywords:', minus_keywords)
+
+            # filter by plus_keywords
+            # TODO: improve filter
+            #       now filters both by "IP":
+            #       ip networks -> good
+            #       PhilIPs -> bad
+            wanted_items = set()
+            for word in plus_keywords:
+                try:
+                    for item in listings.filter(description__icontains=word):
+                        print('----------------------------------------------')
+                        print('Tender filtered by word: ', word)
+                        print('Number: ', item.number)
+                        print('Description: ', item.description)
+                        print('----------------------------------------------\n')
+
+                        wanted_items.add(item.pk)
+                except:
+                    continue
+            listings = listings.filter(pk__in=wanted_items)
+
+            # TODO: add using minus word
+            # # for word in minus_keywords:
+            # #     for item in wanted_items:
+            # #         if word in item:
+            # #             wanted_items.remove(item.pk)
+
         # ----------- filter by keyword --------------------------------
         if 'keyword' in query:
             keyword = query['keyword']
@@ -93,10 +136,6 @@ def extended_search(request):
             customer = query['customer']
             if customer:
                 listings = listings.filter(customer__icontains=customer)
-
-        # ----------- categories --------------------------------
-        # TODO: Make filter by categories
-        # TODO: MAke filter by customer
 
         # ----------- Pagination --------------------------------
         # safe last query for pagination
