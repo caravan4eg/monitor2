@@ -42,6 +42,8 @@ class WorkflowPageView(TemplateView):
 
 def simple_search(request):
     queryset = Tenders.objects.order_by('-deadline').filter(deadline__gte=date.today())
+    context = {}
+    query = request.GET
     print('request.GET', request.GET)
 
     if 'keywords' in request.GET:
@@ -52,10 +54,26 @@ def simple_search(request):
         if keywords:
             queryset = queryset.filter(description__icontains=keywords)
 
-    context = {
-        'tenders': queryset,
-        'values': request.GET
-    }
+    # # ----------- Pagination --------------------------------
+        # safe last query for pagination
+        context['last_query'] = '&'
+        for key, value in query.items():
+            # page from request is not needed now because will be added in html
+            if key != 'page':
+                context['last_query'] += key + '=' + value + '&'
+        context['last_query'] = context['last_query'][:-1]
+        print(context['last_query'])
+
+        paginator = Paginator(queryset, 5)
+        page = query.get('page', 1)
+        try:
+            paged_queryset = paginator.page(page)
+        except PageNotAnInteger:
+            paged_queryset = paginator.page(1)
+        except EmptyPage:
+            paged_queryset = paginator.page(paginator.num_pages)
+    context['listings'] = paged_queryset
+    context['values'] = request.GET
     return render(request, 'simple_search.html', context)
 
 
@@ -77,8 +95,6 @@ def extended_search(request):
                 listings = Tenders.objects.order_by('-deadline')
 
         # ----------- categories --------------------------------
-        # TODO: Make filter by categories
-
         selected_categories = [key for key, value in query.items() if value == 'on']
         if selected_categories:
             print(f'{"*"*30} Selected category: {selected_categories}')
@@ -98,6 +114,7 @@ def extended_search(request):
             #       now filters both by "IP":
             #       ip networks -> good
             #       PhilIPs -> bad
+            # or deep learning?
             wanted_items = set()
             for word in plus_keywords:
                 try:
