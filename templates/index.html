@@ -20,14 +20,15 @@
 
           <form action="{% url 'simple_search' %}">
             <div class="form-row">
-              <div class="col-md-11 ">
+              <div class="col-md-12 ">
                 <label class="sr-only">Keywords</label>
                 <input type="text" name="keywords" class="form-control" placeholder=
                 "Поиск по предмету закупки. Например: вентиляция, сервер, бумага ...">
               </div>
 
-              <button class="btn btn-secondary mt-6" type="submit"> Найти </button>
+              {% comment %} <button class="btn btn-secondary mt-6 btn-block" type="submit"> Найти </button> {% endcomment %}
             </div>
+            <button class="btn btn-secondary btn-block mt-4" type="submit">Submit form</button>
           </form>
 
         </div>
