@@ -28,67 +28,6 @@ class WorkflowPageView(TemplateView):
     template_name = 'workflow.html'
 
 
-def search(request):
-    """
-    Our GET request will be like this
-    http://127.0.0.1:8000/listings/search?keyword=pool&city=
-    We will look if there is "keywords" or another query params are in request and then filter by them.
-    All query params are there in request dict like this:
-        <QueryDict: {'keywords': ['pool, garage'], 'city': ['']}>
-    """
-    # get all items from DB
-    queryset_list = Tenders.objects.all()
-
-    if 'keywords' in request.GET:
-        keywords = request.GET['keywords']
-        print(request.GET['keywords'])
-
-        # if keywords not empty we'll filter by keywords by field "description"
-        if keywords:
-            queryset_list = queryset_list.filter(
-                description__icontains=keywords)
-
-    # Filter by City
-    if 'city' in request.GET:
-        city = request.GET['city']
-        if city:
-            queryset_list = queryset_list.filter(city__iexact=city)
-
-    # Filter by State
-    if 'state' in request.GET:
-        state = request.GET['state']
-        if state:
-            queryset_list = queryset_list.filter(state__iexact=state)
-
-    # Filter by Bedrooms
-    if 'bedrooms' in request.GET:
-        bedrooms = request.GET['bedrooms']
-        if bedrooms:
-            # bedrooms__lte (less then equals)
-            queryset_list = queryset_list.filter(bedrooms__lte=bedrooms)
-
-    # Filter by Price
-    if 'price' in request.GET:
-        price = request.GET['price']
-        if price:
-            # price__lte (less then equals)
-            queryset_list = queryset_list.filter(price__lte=price)
-
-    context = {
-        # data from listings/choices.py for search form
-        'bedroom_choices': bedroom_choices,
-        'state_choices': state_choices,
-        'price_choices': price_choices,
-
-        # items from DB after all previously made filters
-        'listings': queryset_list,
-
-        # transfer back all requested params to display them in form
-        'values': request.GET
-    }
-    return render(request, 'listings/search.html', context)
-
-
 # class SimpleSearch(ListView):
 #     model = Tenders
 #     template_name = 'search.html'
@@ -127,7 +66,7 @@ def extended_search(request):
 
     if query is not None:
 
-        # ----------- state 0, 1, 2 --------------------------------
+        # ----------- filter by  state 0, 1, 2 --------------------------------
         if 'state' in query:
             state = query['state']
             if state == '0':
@@ -137,26 +76,33 @@ def extended_search(request):
             elif state == '2':
                 listings = Tenders.objects.order_by('-deadline')
 
-        # ----------- keyword --------------------------------
+        # ----------- filter by keyword --------------------------------
         if 'keyword' in query:
             keyword = query['keyword']
             if keyword:
                 listings = listings.filter(description__icontains=keyword)
 
-        # ----------- number --------------------------------
+        # ----------- filter by number --------------------------------
         if 'number' in query:
             number = query['number']
             if number:
                 listings = listings.filter(number__icontains=number)
 
-        # ----------- categories --------------------------------
-        # code here
+        # ----------- filter by customer --------------------------------
+        if 'customer' in query:
+            customer = query['customer']
+            if customer:
+                listings = listings.filter(customer__icontains=customer)
 
-        # Pagination
-        # remember last query for pagination
+        # ----------- categories --------------------------------
+        # TODO: Make filter by categories
+        # TODO: MAke filter by customer
+
+        # ----------- Pagination --------------------------------
+        # safe last query for pagination
         context['last_query'] = '&'
         for key, value in query.items():
-            # page is not needed because will be added in html
+            # page from request is not needed now because will be added in html
             if key != 'page':
                 context['last_query'] += key + '=' + value + '&'
         context['last_query'] = context['last_query'][:-1]
