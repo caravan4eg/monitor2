@@ -50,13 +50,13 @@
 <section id="about" class="py-5 bg-secondary text-white">
   <div class="container">
     <div class="row">
-        <div class="col-md-12">
+        <div class="col">
           <h2>Мы анализируем и поставляем информацию</h2>
           <p class="lead">Добро пожаловать в ТендерМонитор — сервис по мониторингу и подбору информации по тендерам и закупкам.</p>
 
           <p class="lead"><b>Порядка 8000 актуальных тендеров и запросов </b> - это ежедневное количество заявок на поставку товаров и услуг, которые ожидают своего исполнителя. Заявки представляют собой официальное объявленные процедуры закупок от компаний и организаций различных форм собственности, а также государственных структур.</p>
 
-          <p class="lead">Наш сервис проводит постоянный мониторинг тендеров на территории Беларуси и у вас всегда есть возможность и получить полнейую и актуальную информацию о конкурсных торгах и тендерах в Беларуси. Особенно интересна возможность получения информации о закупках в интересующей вас области, например, Вы можете получать свежую информацию о закупках в интересующей вас области: <b>"Строительство", "Вентиляция и кондиционирование", "Информационные технологии, компьютеры и оборудование"</b> и т.д. <a href="{% url 'extended_search'%}">(См. расширенный поиск)</a></p>
+          <p class="lead">Наш сервис проводит постоянный мониторинг тендеров на территории Беларуси и у вас всегда есть возможность и получить полнейую и актуальную информацию о конкурсных торгах и тендерах в Беларуси. Особенно интересна возможность получения информации о закупках в интересующей вас области, например, Вы можете получать свежую информацию о закупках в интересующей вас области: <b>"Строительство", "Вентиляция и кондиционирование", "Информационные технологии, компьютеры и оборудование"</p>
 
           <p class="lead">Воспользуйтесь формой поиска и подберите необходимую вам информацию по отраслям или ключевым словам!</p>
         </div>
@@ -74,17 +74,17 @@
         <div class="row">
           {% for tender in tenders_list %}
               <div class="col-sm-6">
-                <div class="card">
+                <div class="card my-card">
                   <div class="card-body">
                     <h5 class="card-title"> № {{tender.number}}</h5>
                     <hr>
                     {% if tender.price != '0'%}
-                      <p class="card-text">Стоимость: <b>{{tender.price}} BYN</b></p>
+                      <p class="card-text">Начальная стоимость: <b>{{tender.price}} BYN</b></p>
                     {% endif %}
                     <p class="card-text">Заказчик: {{tender.customer|truncatechars:50}}</p>
-                    <p class="card-text">Заявка: {{tender.description|truncatechars:250}}</p>
-                    <p class="card-text">Актуально до: {{tender.deadline}}</p>
-                    <a href="{{ tender.url_addr }}" target="_blank" class="btn btn-primary">Подробнее</a>
+                    <p class="card-text">Описание заявки: {{tender.description|truncatechars:250}}</p>
+                    <p class="card-text">Срок подачи предложений: {{tender.deadline}}</p>
+                    <a href="{{ tender.url_addr }}" target="_blank" class="btn btn-primary">Подробности...</a>
                   </div>
                 </div>
               </div>
@@ -110,19 +110,19 @@
         <!--TODO: Дописать преимущества -->
 
         <h3>Постоянный мониторинг</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur hic dignissimos ratione ea quae.</p>
+        <p>Тендер монитор производит мониторинг всех республиканских и отраслевых источников информации о проведении конкурсных закупок и тендерных торгов.</p>
       </div>
       <div class="col-md-4">
         <i class="fas fa-home fa-4x mr-4"></i>
         <hr>
         <h3>Информация по отраслям</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur hic dignissimos ratione ea quae.</p>
+        <p>Сервис позволяет производить поиск заявок по отраслям и тематическим закупкам. Соответственно, если вы работаете в области строительства или безопасности, вы получите информацию по закупкам только в этих областях.</p>
       </div>
       <div class="col-md-4">
         <i class="fas fa-suitcase fa-4x mr-4"></i>
         <hr>
-        <h3>Удобный расширенный поиск</h3>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt, debitis nam! Repudiandae, provident iste consequatur ic dignissimos ratione ea quae.</p>
+        <h3>Удобный поиск</h3>
+        <p>Если стандартного поиска вам недостаточно, то вы можете воспользоваться расширенным поиском, который поможет вам получить информацию по официальному номеру заявки, наименованию организатора, просмотреть актуальные или архивные конкурсы.</p>
       </div>
     </div>
   </div>

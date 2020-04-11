@@ -13,8 +13,7 @@ class HomePageView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['tenders_list'] = Tenders.objects.all().exclude(price__iexact='0')[
-            :4]
+        context['tenders_list'] = Tenders.objects.all().exclude(price__iexact='0').filter(deadline__gte=date.today())[:4]
         return context
 
 
