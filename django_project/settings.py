@@ -3,6 +3,7 @@ TenderMonitor project w/Nick
 """
 
 import os
+import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -166,9 +167,6 @@ CELERY_RESULT_SERIALIZER = 'json'
 # }
 CELERY_WORKER_MAX_TASKS_PER_CHILD=1
 
-# Configure Django App for Heroku.
-# import django_heroku
-# django_heroku.settings(locals())
 
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -201,3 +199,9 @@ STATICFILES_FINDERS = (
 )
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
+# Configure Django App for Heroku
+import django_heroku
+django_heroku.settings(locals())
