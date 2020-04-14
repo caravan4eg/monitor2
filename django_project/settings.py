@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     # 3rd party
     'rest_framework',
-    # 'django_filters',
+    'django_filters',
     'corsheaders',
     'django.contrib.humanize',
 ]
