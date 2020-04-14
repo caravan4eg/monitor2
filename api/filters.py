@@ -1,6 +1,6 @@
-from django_filters.rest_framework import DjangoFilterBackend, FilterSet
+# from django_filters.rest_framework import DjangoFilterBackend, FilterSet
 from django_app.models import Tenders
-from django_filters import CharFilter, BaseInFilter
+# from django_filters import CharFilter, BaseInFilter
 from django.db import models
 from django_app.models import Tenders
 

@@ -6,16 +6,16 @@ from .serializers import TenderSerializer, CategorySerializer
 from datetime import date, datetime
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from django_filters.rest_framework import DjangoFilterBackend
+# from django_filters.rest_framework import DjangoFilterBackend
 from url_filter.integrations.drf import DjangoFilterBackend
 from .filters import SearchFilter, byWordFilter
 
-from django_filters import rest_framework as filters
+# from django_filters import rest_framework as filters
 from django.db.models import Q
 
 from rest_framework.viewsets import ModelViewSet
 
-from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, CharFilter, BaseInFilter
+# from django_filters import AllValuesFilter, DateTimeFilter, NumberFilter, CharFilter, BaseInFilter
 
 #  old -----------------------------------------------
 
