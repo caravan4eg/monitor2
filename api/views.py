@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 # from django_filters.rest_framework import DjangoFilterBackend
 # from url_filter.integrations.drf import DjangoFilterBackend
-from .filters import SearchFilter, byWordFilter
+# from .filters import SearchFilter, byWordFilter
 
 # from django_filters import rest_framework as filters
 from django.db.models import Q
@@ -32,7 +32,7 @@ class CategoryList(generics.ListAPIView):
     serializer_class = CategorySerializer
     name = "All categories list"
 
-    filter_backends = (filters.DjangoFilterBackend,)
+    # filter_backends = (filters.DjangoFilterBackend,)
     # filter_fields = ('category_name', 'category_descr',)
     search_fields = (
         '^category_name',
@@ -74,8 +74,8 @@ class FilteredTenderList(generics.ListAPIView):
     name = 'Tenders list filtered by categories'
     serializer_class = TenderSerializer
 
-    filter_backends = (DjangoFilterBackend,)
-    filter_class = byWordFilter
+    # filter_backends = (DjangoFilterBackend,)
+    # filter_class = byWordFilter
 
     def get_queryset(self):
         """
