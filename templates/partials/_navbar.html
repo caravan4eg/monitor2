@@ -13,7 +13,6 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <ul class="navbar-nav">
 
-        <!--Смотрим какую часть меню подсветить. В заисимости на какой странице мы есть если в корне / - то подсвечиваем Homeб если на странице about,, то активна надпись About -->
         <li
           {% if '/' == request.path %}
             class="nav-item active mr-3"
@@ -58,13 +57,7 @@
           {% endif %}>
           <a class="nav-link" href="{% url 'workflow' %}">Процесс</a>
         </li>
-
-
-<!-- --------------------------------------- -->
-
       </ul>
-
-
     </div>
   </div>
 </nav>
