@@ -7,13 +7,15 @@ from django.shortcuts import render, get_object_or_404
 from datetime import date, datetime
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
+
 class HomePageView(ListView):
     model = Tenders
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
-        context['tenders_list'] = Tenders.objects.all().exclude(price__iexact='0')[:4]
+        context['tenders_list'] = Tenders.objects.all().exclude(price__iexact='0')[
+            :4]
         return context
 
 
@@ -40,7 +42,10 @@ class WorkflowPageView(TemplateView):
 
 
 def simple_search(request):
-    queryset = Tenders.objects.order_by('-deadline').filter(deadline__gte=date.today())
+    # queryset = Tenders.objects.order_by(
+    #     '-deadline').filter(deadline__gte=date.today())
+    queryset = Tenders.objects.order_by(
+        '-deadline')
     context = {}
     query = request.GET
     print('request.GET', request.GET)
@@ -87,23 +92,27 @@ def extended_search(request):
         if 'state' in query:
             state = query['state']
             if state == '0':
-                listings = Tenders.objects.order_by('-deadline').filter(deadline__gte=date.today())
+                listings = Tenders.objects.order_by(
+                    '-deadline').filter(deadline__gte=date.today())
             elif state == '1':
-                listings = Tenders.objects.order_by('-deadline').filter(deadline__lte=date.today())
+                listings = Tenders.objects.order_by(
+                    '-deadline').filter(deadline__lte=date.today())
             elif state == '2':
                 listings = Tenders.objects.order_by('-deadline')
 
         # ----------- categories --------------------------------
-        selected_categories = [key for key, value in query.items() if value == 'on']
+        selected_categories = [key for key,
+                               value in query.items() if value == 'on']
         if selected_categories:
             print(f'{"*"*30} Selected category: {selected_categories}')
-
 
             # get plus and minus keywords for selected category from DB
             for category in selected_categories:
                 obj = KeyWord.objects.get(category_name__startswith=category)
-                plus_keywords = [word.strip() for word in obj.plus_keywords.split(',')]
-                minus_keywords = [word.strip() for word in obj.minus_keywords.split(',')]
+                plus_keywords = [word.strip()
+                                 for word in obj.plus_keywords.split(',')]
+                minus_keywords = [word.strip()
+                                  for word in obj.minus_keywords.split(',')]
             print('************ Keywords for selected category: ')
             print('Plus keywords:', plus_keywords)
             print('Minus keywords:', minus_keywords)

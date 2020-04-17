@@ -82,9 +82,6 @@ class FilteredTenderList(generics.ListAPIView):
         This view should return a list of all tenders for
         categories as determined by the category_request portion of the URL.
         """
-        # # proba
-        # print(self.request.GET)
-        # print(self.kwargs)
 
         wanted_items = set()
         category_list = (
