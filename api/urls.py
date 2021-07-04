@@ -48,8 +48,4 @@ urlpatterns = [
                     Search.as_view(),
                     name=Search.name),
 
-
-
-
-
     ]
